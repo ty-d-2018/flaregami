@@ -1,4 +1,5 @@
 pub mod sensory;
+pub mod connection;
 
 pub enum Material{
     Point,

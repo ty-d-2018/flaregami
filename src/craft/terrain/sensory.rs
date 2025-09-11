@@ -1,6 +1,12 @@
+use super::connection::{ 
+    Connection, 
+    Quad, 
+    Edge, 
+};
 
 pub trait Vector{
     fn get_dimension(&self) -> (f32, f32, f32);
+    fn get_clone(&self) -> Box::<dyn Vector>;
     fn get_x(&self) -> f32{
         let (x, y, z) = self.get_dimension();
         x
@@ -39,6 +45,7 @@ pub trait Vector{
     }
 }
 
+#[derive(Clone)]
 pub struct CommonPosition{
     x: f32,
     y: f32,
@@ -59,4 +66,17 @@ impl Vector for CommonPosition{
     fn get_dimension(&self) -> (f32, f32, f32){
         (self.x, self.y, self.z)
     }
+    fn get_clone(&self) -> Box::<dyn Vector>{
+        Box::new(self.clone())
+    }
 }
+
+impl<'c> Connection<'c> for CommonPosition{
+    fn nested_in_edge(&self) -> &Edge<'c>{
+        todo!();
+    }
+    fn nested_in_quad(&self) -> (char, &Quad<'c>){
+        todo!();
+    }
+}
+
