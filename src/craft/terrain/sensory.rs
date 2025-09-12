@@ -7,11 +7,11 @@ use super::connection::{
 use std::rc::Rc;
 use std::cell::RefCell;
 
-type DynVector = dyn Vector;
-type Design = Rc::<DynVector>;
-type BoxedVector = Box::<DynVector>;
-type MutableVector = RefCell::<BoxedVector>;
-type Material = Rc::<MutableVector>;
+pub type DynVector = dyn Vector;
+pub type Design = Rc::<DynVector>;
+pub type BoxedVector = Box::<DynVector>;
+pub type MutableVector = RefCell::<BoxedVector>;
+pub type Material = Rc::<MutableVector>;
 
 pub trait Vector{
     fn get_dimension(&self) -> (f32, f32, f32);
@@ -62,6 +62,7 @@ pub struct CommonPosition{
     x: f32,
     y: f32,
     z: f32,
+    //in_edge: Rc::<Edge>,
 }
 
 impl CommonPosition{
@@ -93,10 +94,10 @@ impl Vector for CommonPosition{
 }
 
 impl<'c> Connection<'c> for CommonPosition{
-    fn nested_in_edge(&self) -> &Edge<'c>{
+    fn nested_in_edge(&self) -> (char, &Edge){
         todo!();
     }
-    fn nested_in_quad(&self) -> (char, &Quad<'c>){
+    fn nested_in_quad(&self) -> (char, &Quad){
         todo!();
     }
 }

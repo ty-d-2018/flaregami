@@ -1,9 +1,9 @@
-use super::sensory::{ Vector };
+use super::sensory::{ Vector, Material, Design, BoxedVector };
 
 pub trait Connection<'b>{
-    fn nested_in_edge(&self) -> &Edge<'b>;
-    fn nested_in_quad(&self) -> (char, &Quad<'b>);
-    fn point_in_quad(quad: &Quad<'b>, id: char) -> Option::<Box::<dyn Vector>>{
+    fn nested_in_edge(&self) -> (char, &Edge);
+    fn nested_in_quad(&self) -> (char, &Quad);
+    fn point_in_quad(quad: &Quad, id: char) -> Option::<BoxedVector>{
         match id{
             'a' => Some(quad.a.get_clone()),
             'b' => Some(quad.b.get_clone()),
@@ -12,7 +12,7 @@ pub trait Connection<'b>{
             _ => None,
         }
     } 
-    fn point_in_edge(edge: &Edge<'b>, id: char) -> Option::<Box::<dyn Vector>>{
+    fn point_in_edge(edge: &Edge, id: char) -> Option::<BoxedVector>{
         match id{
             'a' => Some(edge.a.get_clone()),
             'b' => Some(edge.b.get_clone()),
@@ -21,34 +21,34 @@ pub trait Connection<'b>{
     }
 }
 
-pub struct Quad<'a>{
-    a: &'a dyn Vector,
-    b: &'a dyn Vector,
-    c: &'a dyn Vector,
-    d: &'a dyn Vector,
+pub struct Quad{
+    a: BoxedVector,
+    b: BoxedVector,
+    c: BoxedVector,
+    d: BoxedVector,
 }
 
-pub struct Edge<'e>{
-    a: &'e dyn Vector,
-    b: &'e dyn Vector,
+pub struct Edge{
+    a: BoxedVector,
+    b: BoxedVector,
 }
 
-impl<'a> Quad<'a>{
-    pub fn new(a: &'a impl Vector, b: &'a impl Vector, c: &'a impl Vector, d: &'a impl Vector) -> Quad<'a>{
+impl Quad{
+    pub fn new(a: &BoxedVector, b: &BoxedVector, c: &BoxedVector, d: &BoxedVector) -> Quad{
         Quad{
-            a,
-            b,
-            c,
-            d
+            a: a.get_clone(),
+            b: b.get_clone(),
+            c: c.get_clone(),
+            d: d.get_clone()
         }
     }
 }
 
-impl<'e> Edge<'e>{
-    pub fn new(a: &'e impl Vector, b: &'e impl Vector) -> Edge<'e>{
+impl Edge{
+    pub fn new(a: BoxedVector, b: BoxedVector) -> Edge{
         Edge{
-            a,
-            b,
+            a: a.get_clone(),
+            b: b.get_clone(),
         }
     }
 }
