@@ -3,6 +3,7 @@ use super::connection::{
     Quad, 
     Edge, 
 };
+use super::map::{ Id };
 
 use std::rc::Rc;
 use std::cell::RefCell;
@@ -59,6 +60,7 @@ pub trait Vector{
 
 #[derive(Clone)]
 pub struct CommonPosition{
+    id: Option::<Id::<String>>,
     x: f32,
     y: f32,
     z: f32,
@@ -68,6 +70,7 @@ pub struct CommonPosition{
 impl CommonPosition{
     pub fn new(x: f32, y: f32, z: f32) -> CommonPosition{
         CommonPosition{
+            id: None,
             x,
             y,
             z,
