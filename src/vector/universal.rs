@@ -87,4 +87,22 @@ pub mod arrow{
             }
         }
     }
+
+    impl Vector for Homing{
+        fn get_dimension(&self) -> (f32, f32, f32){
+            self.scalar
+        }
+        fn get_clone(&self) -> BoxedVector{
+            Box::new(self.clone())
+        }
+        fn get_design(&self) -> Design{
+            Rc::new(self.clone())
+        }
+        fn ref_cell_clone(&self) -> MutableVector{
+            RefCell::new(self.get_clone())
+        }
+        fn into_material(&self) -> Material{
+            Rc::new(self.ref_cell_clone())
+        }
+    }
 }
