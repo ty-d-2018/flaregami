@@ -54,3 +54,8 @@ pub trait Vector{
         (z, y)
     }
 }
+
+pub trait RuleVector<R>: Vector{
+    /// One or zero for the dimension of x, y or z. One meaning true, zero meaning false. True meaning this component is part of the constraint.
+    fn get_constraint(&self) -> (u8, u8, u8);
+}
