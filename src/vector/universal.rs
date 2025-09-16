@@ -18,6 +18,23 @@ pub mod arrow{
         y: f32,
         z: f32,
     }
+
+    #[derive(Clone)]
+    pub enum Home{
+        x,
+        y,
+        z,
+        xy,
+        xz,
+        yz,
+        xyz,
+    }
+
+    #[derive(Clone)]
+    pub struct Homing{
+        direction: Home,
+        scalar: (f32, f32, f32),
+    }
     
     impl Point{
         pub fn new(x: f32, y: f32, z: f32) -> Point{
@@ -44,6 +61,30 @@ pub mod arrow{
         }
         fn into_material(&self) -> Material{
             Rc::new(self.ref_cell_clone())
+        }
+    }
+
+    impl Home{
+        pub fn get_scalar(&self, x: f32, y: f32, z: f32) -> (f32, f32, f32){
+            match self{
+                Home::x => (x, 0.0, 0.0,),
+                Home::y => (0.0, y, 0.0),
+                Home::z => (0.0, 0.0, z),
+                Home::xy => (x, y, 0.0),
+                Home::xz => (x, 0.0, z),
+                Home::yz => (0.0, y, z),
+                Home::xyz => (x, y, z),
+            }
+        }
+    }
+
+    impl Homing{
+        pub fn create_beacon(home: &Home, x: f32, y: f32, z: f32) -> Homing{
+            let scalar: (f32, f32, f32) = home.get_scalar(x, y, z);
+            Homing{
+                direction: home.clone(),
+                scalar: scalar,
+            }
         }
     }
 }
