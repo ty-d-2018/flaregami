@@ -1,16 +1,17 @@
-use std::collections::HashMap;
 
-use super::craft::teaching::{ Blueprint };
-
-pub struct Ancestor{
-    wisdom: HashMap::<String, Blueprint>,
+#[derive(Clone)]
+pub struct Id<T: Clone>{
+    lookup: T,
 }
 
-impl Ancestor{
-    pub fn new() -> Ancestor{
-        Ancestor{
-            wisdom: HashMap::new(),
+impl<T: Clone> Id<T>{
+    pub fn new(serial: T) -> Id<T>{
+        Id{
+            lookup: serial,
         }
     }
-    pub fn speak(&self){}
+
+    pub fn get_id(&self) -> T{
+        self.lookup.clone()
+    }
 }
