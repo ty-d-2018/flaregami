@@ -1,7 +1,6 @@
-pub mod fire;
 pub mod ephemeral;
-pub mod craft;
 pub mod vector;
+pub mod shape;
 
 fn main() {
     println!("Hello, world!");
